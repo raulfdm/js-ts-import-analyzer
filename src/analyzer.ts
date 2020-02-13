@@ -1,4 +1,4 @@
-import { Projects } from "Config";
+import { Projects } from "./types";
 import { generateCsvContent } from "./helpers";
 
 export function analyzeProjects(projects: Projects): string {

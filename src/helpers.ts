@@ -1,10 +1,10 @@
 import { parse } from "@babel/parser";
+import { Statement, ImportSpecifier, ImportDeclaration } from "@babel/types";
 import fs from "fs";
 import glob from "glob";
 
-import { Project, Projects, File, Components } from "./types/Config";
+import { Project, Projects, File, Components } from "./types";
 import { config } from "./config";
-import { Statement, ImportSpecifier, ImportDeclaration } from "@babel/types";
 
 function filterLegoImports(statement: Statement) {
   return (
@@ -18,12 +18,16 @@ function getFileContent(filePath: string): string {
 }
 
 export function generateCsvContent(project: Project): string[] {
+  const { delimiter } = config.csv;
   return project.files
     .map(file => {
       return file.components!.map(componentName => {
         return `${file.absolutePath
           .replace(config.rootFolder, "")
-          .replace(project.projectName, "")};${componentName};${
+          .replace(
+            project.projectName,
+            ""
+          )}${delimiter}${componentName}${delimiter}${
           project.projectName
         }`.replace("/src", "src");
       });

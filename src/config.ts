@@ -1,7 +1,6 @@
-import glob from "glob";
 import path from "path";
 
-import { Projects, Config, InternalGlobConfig } from "./types/Config";
+import { Config } from "./types";
 import { createProject } from "./helpers";
 
 /* TODO: Get some options from .env? */
