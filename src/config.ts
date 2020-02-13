@@ -10,7 +10,7 @@ export const config: Config = {
     delimiter: ";",
     fileName: "report",
     get path() {
-      return path.resolve(__dirname, "../report", `${this.fileName}.csv`);
+      return path.resolve(__dirname, "../", `${this.fileName}.csv`);
     }
   },
   projectsList: ["blendle-web-client", "web-payment", "web-landings"],
