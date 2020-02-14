@@ -17,24 +17,6 @@ function getFileContent(filePath: string): string {
   return fs.readFileSync(filePath).toString();
 }
 
-export function generateCsvContent(project: Project): string[] {
-  const { delimiter } = config.csv;
-  return project.files
-    .map(file => {
-      return file.components!.map(componentName => {
-        return `${file.absolutePath
-          .replace(config.rootFolder, "")
-          .replace(
-            project.projectName,
-            ""
-          )}${delimiter}${componentName}${delimiter}${
-          project.projectName
-        }`.replace("/src", "src");
-      });
-    })
-    .flat();
-}
-
 function getComponentsUsed(filePath: string): Components | null {
   const fileContent = getFileContent(filePath);
 
@@ -67,19 +49,4 @@ export function createFile(fileAbslutePath: string, projectName: string): File {
     project: projectName,
     components: getComponentsUsed(fileAbslutePath)
   };
-}
-
-export function getFilesToAnalyzePerProject(): Projects {
-  return config.projects.map((project: Project) => {
-    const internalGlobOptions = config.createGlobConfig(
-      project.projectAbsolutePath
-    );
-
-    const files = glob
-      .sync(internalGlobOptions.pattern, internalGlobOptions.options)
-      .map(filePath => createFile(filePath, project.projectName))
-      .filter(filterFilesWithoutComponents);
-
-    return { ...project, files };
-  });
 }

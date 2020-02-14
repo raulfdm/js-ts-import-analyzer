@@ -2,9 +2,9 @@ import fs from "fs";
 
 import { config } from "./config";
 import { analyzeProjects } from "./analyzer";
-import { getFilesToAnalyzePerProject } from "./helpers";
+import { collectFilesToAnalyzePerProject } from "./collect";
 
 Promise.resolve()
-  .then(getFilesToAnalyzePerProject)
+  .then(collectFilesToAnalyzePerProject)
   .then(analyzeProjects)
   .then(csvContent => fs.writeFileSync(config.csv.path, csvContent));
